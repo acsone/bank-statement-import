@@ -37,7 +37,7 @@ class AccountBankStatementImport(models.TransientModel):
     @api.model
     def _prepare_paypal_encoding(self):
         '''This method is designed to be inherited'''
-        return 'latin1'
+        return 'UTF-8'
 
     @api.model
     def _prepare_paypal_date_format(self):
@@ -63,7 +63,12 @@ class AccountBankStatementImport(models.TransientModel):
     @api.model
     def _check_paypal(self, data_file):
         '''This method is designed to be inherited'''
-        return data_file.strip().startswith('Date,')
+        try:
+            data_file_encode = data_file.strip()[:10].decode('utf-8')
+            starts = u'﻿"Date",'
+            return data_file_encode == starts
+        except:
+            return False
 
     @api.model
     def _parse_file(self, data_file):
@@ -105,8 +110,8 @@ class AccountBankStatementImport(models.TransientModel):
                 'owner_name': line[3],
                 'amount': line[7],
                 'commission': line[8],
-                'balance': line[34],
-                'transac_ref': line[30],
+                'balance': line[27],
+                'transac_ref': line[23],
                 'ref': line[12],
                 'line_nr': i,
             }
