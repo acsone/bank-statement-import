@@ -110,8 +110,8 @@ class AccountBankStatementImport(models.TransientModel):
                 'owner_name': line[3],
                 'amount': line[7],
                 'commission': line[8],
-                'balance': line[27],
-                'transac_ref': line[23],
+                'balance': line[29],
+                'transac_ref': line[24],
                 'ref': line[12],
                 'line_nr': i,
             }
