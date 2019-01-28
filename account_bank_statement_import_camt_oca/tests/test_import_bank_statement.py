@@ -8,6 +8,7 @@ import pprint
 import tempfile
 
 
+from odoo import fields
 from odoo.tests.common import TransactionCase
 from odoo.modules.module import get_module_resource
 
@@ -65,29 +66,30 @@ class TestParser(TransactionCase):
 
 class TestImport(TransactionCase):
     """Run test to import camt import."""
+    date_01 = fields.Date.from_string('2014-01-05')
     transactions = [
         {
             'account_number': 'NL46ABNA0499998748',
             'amount': -754.25,
-            'date': '2014-01-05',
+            'date': date_01,
             'ref': '435005714488-ABNO33052620',
         },
         {
             'remote_account': 'NL46ABNA0499998748',
             'transferred_amount': -564.05,
-            'value_date': '2014-01-05',
+            'value_date': date_01,
             'ref': 'TESTBANK/NL/20141229/01206408',
         },
         {
             'remote_account': 'NL46ABNA0499998748',
             'transferred_amount': -100.0,
-            'value_date': '2014-01-05',
+            'value_date': date_01,
             'ref': 'TESTBANK/NL/20141229/01206407',
         },
         {
             'remote_account': 'NL69ABNA0522123643',
             'transferred_amount': 1405.31,
-            'value_date': '2014-01-05',
+            'value_date': date_01,
             'ref': '115',
         },
     ]
@@ -127,8 +129,8 @@ class TestImport(TransactionCase):
                         line[key] == self.transactions[0][key]
                         for key in ['amount', 'date', 'ref']
                     ) and
-                    line.bank_account_id.acc_number ==
-                    self.transactions[0]['account_number']
+                    line.account_number == self.transactions[0][
+                        'account_number']
                     for line in statement.line_ids
                 ))
 

@@ -11,6 +11,7 @@ from odoo import models
 class CamtParser(models.AbstractModel):
     """Parser for camt bank statement import files."""
     _name = 'account.bank.statement.import.camt.parser'
+    _description = "CAMT Parser"
 
     def parse_amount(self, ns, node):
         """Parse element that contains Amount and CreditDebitIndicator."""
