@@ -83,7 +83,9 @@ class AccountBankStatementImport(models.TransientModel):
     def _complete_stmts_vals(self, stmt_vals, journal_id, account_number):
         """Match partner_id if hasn't been deducted yet."""
         res = super(AccountBankStatementImport, self)._complete_stmts_vals(
-            stmt_vals, journal_id, account_number,
+            stmt_vals,
+            journal_id,
+            account_number,
         )
         # Since QIF doesn't provide account numbers (normal behaviour is to
         # provide 'account_number', which the generic module uses to find
@@ -93,7 +95,8 @@ class AccountBankStatementImport(models.TransientModel):
             for line_vals in statement["transactions"]:
                 if not line_vals.get("partner_id") and line_vals.get("name"):
                     partner = partner_obj.search(
-                        [("name", "ilike", line_vals["name"])], limit=1,
+                        [("name", "ilike", line_vals["name"])],
+                        limit=1,
                     )
                     line_vals["partner_id"] = partner.id
         return res
