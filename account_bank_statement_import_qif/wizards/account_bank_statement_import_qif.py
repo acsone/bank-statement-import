@@ -12,7 +12,7 @@ from odoo.tools.translate import _
 
 
 class AccountBankStatementImport(models.TransientModel):
-    _inherit = "account.bank.statement.import"
+    _inherit = "account.statement.import"
 
     @api.model
     def _check_qif(self, data_file):
@@ -20,7 +20,7 @@ class AccountBankStatementImport(models.TransientModel):
 
     def _parse_file(self, data_file):
         if not self._check_qif(data_file):
-            return super(AccountBankStatementImport, self)._parse_file(data_file)
+            return super()._parse_file(data_file)
         try:
             file_data = data_file.decode()
             if "\r" in file_data:
@@ -82,7 +82,7 @@ class AccountBankStatementImport(models.TransientModel):
 
     def _complete_stmts_vals(self, stmt_vals, journal_id, account_number):
         """Match partner_id if hasn't been deducted yet."""
-        res = super(AccountBankStatementImport, self)._complete_stmts_vals(
+        res = super()._complete_stmts_vals(
             stmt_vals,
             journal_id,
             account_number,

@@ -3,7 +3,7 @@ are parsed and stored in human readable format in
 Accounting \ Bank and Cash \ Bank Statements.
 
 Important Note
---------------
+~~~~~~~~~~~~~~
 Because of the QIF format limitation, we cannot ensure the same transactions
 aren't imported several times or handle multicurrency. Whenever possible, you
 should use a more appropriate file format like OFX.
