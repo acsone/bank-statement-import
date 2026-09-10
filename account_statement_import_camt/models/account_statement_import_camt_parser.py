@@ -294,6 +294,15 @@ class AccountStatementImportCamtParser(models.AbstractModel):
             "ref",
         )
 
+        if "journal_id" in self.env.context:
+            journal = self.env["account.journal"].browse(
+                self.env.context.get("journal_id")
+            )
+            if journal.ignore_camt_transaction_details and amount < 0:
+                transaction["narration"] = transaction["narration"] or None
+                yield transaction
+                return
+
         # enrich the notes with some more infos when they are available
         self.add_value_from_node(
             ns,
@@ -334,7 +343,6 @@ class AccountStatementImportCamtParser(models.AbstractModel):
         transaction["transaction_type"] = (
             "-".join(transaction["transaction_type"].values()) or ""
         )
-
         details_nodes = node.xpath("./ns:NtryDtls/ns:TxDtls", namespaces={"ns": ns})
         if len(details_nodes) == 0:
             self.generate_narration(transaction)
